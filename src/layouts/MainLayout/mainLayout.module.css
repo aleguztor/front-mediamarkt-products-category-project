@@ -20,13 +20,15 @@
   margin: 0 auto;
   border-top-left-radius: 0;
   border-top-right-radius: 0;
-  background-color: var(--surface-200);
+  border: none;
+  background: linear-gradient(-90deg, white 0%, var(--surface-200) 100%);
 }
 
 .header {
-  background-color: var(--surface-200);
+  background: linear-gradient(90deg, var(--surface-50) 0%, var(--surface-200) 100%);
   color: var(--text-secondary-color);
   a {
+    transition: 200ms;
     display: block;
     text-decoration: none;
     color: inherit;
@@ -37,6 +39,9 @@
     width: 100%;
     margin: 0 auto;
     padding: 1rem 2rem;
+  }
+  a:hover {
+    color: var(--text-color);
   }
 }
 .footer {
@@ -51,6 +56,17 @@
 
 :global(.active-menuitem) :global(.p-menuitem-text),
 :global(.active-menuitem) :global(.p-menuitem-icon) {
-    color: var(--blue-600) !important; 
-    font-weight: bold;
+  color: var(--highlight-text-color);
+  font-weight: bolder;
+}
+
+@media screen and (max-width: 960px) {
+  .header {
+    a {
+      padding: 0.5rem 1rem;
+    }
+  }
+  .sectionModuleContainer {
+    padding: 1rem;
+  }
 }
