@@ -1,6 +1,7 @@
 import { Outlet } from 'react-router-dom';
 import { Menubar } from 'primereact/menubar';
 import { MenuItem } from 'primereact/menuitem';
+import styles from './mainLayout.module.css';
 
 const MainLayout = () => {
   const items: MenuItem[] = [
@@ -10,12 +11,12 @@ const MainLayout = () => {
   ];
 
   return (
-    <div className="layout-wrapper">
+    <>
       <Menubar model={items} />
-      <main style={{ padding: '2rem' }}>
+      <main className={styles.sectionModuleContainer}>
         <Outlet />
       </main>
-    </div>
+    </>
   );
 };
 

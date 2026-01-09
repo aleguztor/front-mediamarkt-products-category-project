@@ -1,0 +1,7 @@
+.sectionModuleContainer{
+    width: 100%;
+    border: 1px solid var(--surface-200);
+    padding: 2rem;
+    margin-top: 10px;
+    border-radius: 8px;
+}

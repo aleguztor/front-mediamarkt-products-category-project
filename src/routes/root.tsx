@@ -1,6 +1,6 @@
 import { RouteObject } from 'react-router-dom';
-import MainLayout from '@/layouts/MainLayout';
-import { CategoriesPage, ProductsPage } from '@/pages';
+import { MainLayout } from '@/layouts';
+import { CategoriesPage, HomePage, ProductsPage } from '@/pages';
 import { PATHS } from './paths';
 
 export const routes: RouteObject[] = [
@@ -10,11 +10,11 @@ export const routes: RouteObject[] = [
   },
   {
     path: PATHS.ROOT,
-    element: <MainLayout />, // Aquí van el Menú y Sidebar de PrimeReact
+    element: <MainLayout />,
     children: [
       {
         index: true,
-        element: PATHS.DASHBOARD.ROOT, // <HomePage />,
+        element: <HomePage />,
       },
       {
         path: PATHS.DASHBOARD.PRODUCTS,
@@ -24,7 +24,6 @@ export const routes: RouteObject[] = [
         path: PATHS.DASHBOARD.CATEGORIES,
         element: <CategoriesPage />,
       },
-      // Añadir más páginas aquí es muy sencillo
     ],
   },
 ];
