@@ -3,7 +3,7 @@ export const PATHS = {
   LOGIN: '/login',
   DASHBOARD: {
     ROOT: '/dashboard',
-    USER_PROFILE: '/dashboard/profile',
-    SETTINGS: '/dashboard/settings',
+    PRODUCTS: '/products',
+    CATEGORIES: '/categories',
   },
 };
