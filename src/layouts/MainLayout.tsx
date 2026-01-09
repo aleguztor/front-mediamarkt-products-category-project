@@ -1,17 +1,19 @@
 import { Outlet } from 'react-router-dom';
 import { Menubar } from 'primereact/menubar';
+import { MenuItem } from 'primereact/menuitem';
 
 const MainLayout = () => {
-  const items = [
+  const items: MenuItem[] = [
     { label: 'Inicio', icon: 'pi pi-home', url: '/' },
-    { label: 'Dashboard', icon: 'pi pi-chart-bar', url: '/dashboard' },
+    { label: 'Productos', icon: 'pi pi-book', url: '/products' },
+    { label: 'Categorías', icon: 'pi pi-list', url: '/categories' },
   ];
 
   return (
     <div className="layout-wrapper">
       <Menubar model={items} />
       <main style={{ padding: '2rem' }}>
-        <Outlet /> {/* <-- Aquí se inyectan las páginas */}
+        <Outlet />
       </main>
     </div>
   );
