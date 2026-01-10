@@ -1,8 +1,8 @@
 import { Product } from '@/core/domain/Product';
-import { ProductRepository } from '@/core/repositories/ProductRepository';
+import { IProductRepository } from '@/core/repositories/ProductRepository';
 import { api } from '@/services/api';
 
-export class ProductRemoteRepository implements ProductRepository {
+export class ProductRemoteRepository implements IProductRepository {
   async create(product: Omit<Product, 'id'>): Promise<Product> {
     const { data } = await api.post(`/product`, product);
     return data;

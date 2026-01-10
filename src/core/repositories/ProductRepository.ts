@@ -1,6 +1,6 @@
 import { Product } from '../domain/Product';
 
-export interface ProductRepository {
+export interface IProductRepository {
   getAll(): Promise<Product[]>;
   getById(id: string): Promise<Product>;
   update(product: Partial<Product> & Pick<Product, 'id' | 'price'>): Promise<Product>;
