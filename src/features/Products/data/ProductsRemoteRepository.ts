@@ -3,21 +3,25 @@ import { ProductRepository } from '@/core/repositories/ProductRepository';
 import { api } from '@/services/api';
 
 export class ProductRemoteRepository implements ProductRepository {
+  async create(product: Omit<Product, 'id'>): Promise<Product> {
+    const { data } = await api.post(`/product`, product);
+    return data;
+  }
   async getAll(): Promise<Product[]> {
-    const { data } = await api.patch(`/products`);
+    const { data } = await api.get(`/product`);
     return data;
   }
   async getById(id: string): Promise<Product> {
-    const { data } = await api.patch(`/products/${id}`);
+    const { data } = await api.get(`/product/${id}`);
     return data;
   }
 
-  async update(id: string, product: Partial<Product>): Promise<Product> {
-    const { data } = await api.patch(`/products/${id}`, product);
+  async update(product: Partial<Product> & Pick<Product, 'id' | 'price'>): Promise<Product> {
+    const { data } = await api.put(`/product`, product);
     return data;
   }
 
   async deleteBy(id: string): Promise<void> {
-    await api.delete(`/products/${id}`);
+    await api.delete(`/product/${id}`);
   }
 }
