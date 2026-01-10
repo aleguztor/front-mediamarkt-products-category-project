@@ -1,23 +1,10 @@
-import { Product } from '@/core/domain/Product';
-import { ProductRepository } from '@/core/repositories/ProductRepository';
+import { Category } from '@/core/domain/Category';
+import { ICategoryRepository } from '@/core/repositories/CategoryRepository';
 import { api } from '@/services/api';
 
-export class CategoryRemoteRepository implements ProductRepository {
-  async getAll(): Promise<Product[]> {
-    const { data } = await api.patch(`/category`);
+export class CategoryRemoteRepository implements ICategoryRepository {
+  async getAll(): Promise<Category[]> {
+    const { data } = await api.get(`/category`);
     return data;
-  }
-  async getById(id: string): Promise<Product> {
-    const { data } = await api.patch(`/category/${id}`);
-    return data;
-  }
-
-  async update(id: string, product: Partial<Product>): Promise<Product> {
-    const { data } = await api.patch(`/category/${id}`, product);
-    return data;
-  }
-
-  async deleteBy(id: string): Promise<void> {
-    await api.delete(`/category/${id}`);
   }
 }
