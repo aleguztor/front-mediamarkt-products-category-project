@@ -101,7 +101,8 @@ export const ProductForm = ({ product, onSave, onCancel, loading, mode }: Produc
           optionLabel="name"
           optionValue="id"
           placeholder="Selecciona una categoría"
-          loading={isLoading}
+          disabled={mode === 'view' || loading}
+          loading={isLoading && loading}
           className={formik.touched.categoryId && formik.errors.categoryId ? 'p-invalid' : ''}
         />
       </div>
