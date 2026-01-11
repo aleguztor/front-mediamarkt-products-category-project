@@ -1,0 +1,35 @@
+.productsPage {
+  display: flex;
+  gap: 10px;
+}
+.filterContainer {
+  width: 200px;
+  border-radius: 6px;
+  border: 1px solid var(--surface-200);
+}
+.productsContainer {
+  display: grid;
+  gap: 5px;
+  flex: 1;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  grid-auto-rows: auto;
+}
+.table {
+  border: 1px solid var(--surface-200);
+  border-radius: 6px;
+  overflow: hidden;
+  .header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .rowFuction {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 10px;
+  }
+}
