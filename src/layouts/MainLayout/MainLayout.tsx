@@ -9,7 +9,6 @@ const MainLayout = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const pathProduct = PATHS.DASHBOARD.PRODUCTS;
-  const pathCategories = PATHS.DASHBOARD.CATEGORIES;
 
   const items: MenuItem[] = useMemo(
     () => [
@@ -19,13 +18,6 @@ const MainLayout = () => {
         url: pathProduct,
         className: location.pathname === pathProduct ? 'active-menuitem' : '',
         command: () => navigate(pathProduct),
-      },
-      {
-        label: 'Categorías',
-        icon: 'pi pi-list',
-        url: pathCategories,
-        className: location.pathname === pathCategories ? 'active-menuitem' : '',
-        command: () => navigate(pathCategories),
       },
     ],
     [location.pathname],
