@@ -1,5 +1,6 @@
 import { Activity } from 'react';
 import { Button } from 'primereact/button';
+import { Dropdown } from 'primereact/dropdown';
 import { InputNumber } from 'primereact/inputnumber';
 import { InputText } from 'primereact/inputtext';
 import { InputTextarea } from 'primereact/inputtextarea';
@@ -7,12 +8,14 @@ import { classNames } from 'primereact/utils';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { Product } from '@/core/domain/Product';
+import { useCategoryActions } from '@/features/Categories/hooks/useCategoryAction';
 import styles from './product.module.css';
 
 const ProductSchema = Yup.object().shape({
   name: Yup.string().required('El nombre es obligatorio').min(2, 'Muy corto'),
   price: Yup.number().required('El precio es obligatorio').positive('Debe ser mayor a 0'),
   description: Yup.string().min(10, 'La descripción es muy corta'),
+  categoryId: Yup.string().nullable(),
 });
 
 interface ProductFormProps {
@@ -30,6 +33,7 @@ export const ProductForm = ({ product, onSave, onCancel, loading, mode }: Produc
       name: product?.name || '',
       price: product?.price || 0,
       description: product?.description || '',
+      categoryId: product?.category?.id || null,
     },
     validationSchema: ProductSchema,
     enableReinitialize: true,
@@ -37,6 +41,8 @@ export const ProductForm = ({ product, onSave, onCancel, loading, mode }: Produc
       onSave(values);
     },
   });
+
+  const { categories, isLoading } = useCategoryActions();
 
   return (
     <form onSubmit={formik.handleSubmit} className={styles.formProduct}>
@@ -84,7 +90,21 @@ export const ProductForm = ({ product, onSave, onCancel, loading, mode }: Produc
           <small className="p-error">{formik.errors.description as string}</small>
         )}
       </div>
-
+      <div className={styles.field}>
+        <label htmlFor="categoryId">Categoría</label>
+        <Dropdown
+          id="categoryId"
+          name="categoryId"
+          value={formik.values.categoryId} // El ID de la categoría del producto
+          options={categories}
+          onChange={(e) => formik.setFieldValue('categoryId', e.value)}
+          optionLabel="name"
+          optionValue="id"
+          placeholder="Selecciona una categoría"
+          loading={isLoading}
+          className={formik.touched.categoryId && formik.errors.categoryId ? 'p-invalid' : ''}
+        />
+      </div>
       <footer className={styles.footer}>
         <Activity mode={mode !== 'view' ? 'visible' : 'hidden'}>
           <Button
