@@ -1,6 +1,5 @@
 import { useLayoutEffect, useRef, useState } from 'react';
 import { Button } from 'primereact/button';
-import { ButtonGroup } from 'primereact/buttongroup';
 import { Column } from 'primereact/column';
 import { DataTable } from 'primereact/datatable';
 import { Product } from '@/core/domain/Product';
@@ -77,7 +76,7 @@ const DataTableProducts = ({
         <Column
           filter
           sortable
-          field="category"
+          field="category.name"
           header="Categoría"
           body={(product) => product.category?.name || 'N/A'}
         ></Column>
