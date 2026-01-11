@@ -1,3 +1,4 @@
+import { useLayoutEffect, useRef, useState } from 'react';
 import { Button } from 'primereact/button';
 import { ButtonGroup } from 'primereact/buttongroup';
 import { Column } from 'primereact/column';
@@ -26,69 +27,88 @@ const DataTableProducts = ({
   setIsEditingProduct,
   setIsCreatingNewProduct,
 }: DataTableProductsProps) => {
-  return (
-    <DataTable
-      resizableColumns
-      virtualScrollerOptions={{ itemSize: 25 }}
-      scrollable
-      scrollHeight="500px"
-      className={styles.table}
-      selectionMode="single"
-      value={products}
-      header={
-        <div className={styles.header}>
-          <h2>Productos</h2>
-          <Button
-            onClick={() => setIsCreatingNewProduct(true)}
-            icon="pi pi-plus"
-            severity="info"
-            size="small"
-            label="Agregar Producto"
-          />
-        </div>
+  const [tableHeight, setTableHeight] = useState('500px');
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useLayoutEffect(() => {
+    const updateHeight = () => {
+      if (containerRef.current) {
+        const newHeight = window.innerHeight - 250;
+        setTableHeight(`${newHeight}px`);
       }
-      loading={isLoading}
-      sortOrder={-1}
-      removableSort
-      sortField="name"
-      tableStyle={{ minWidth: '50rem' }}
-      onRowClick={(product) => setProductOpen(product.data as Product)}
-    >
-      <Column field="name" sortable filter header="Nombre"></Column>
-      <Column field="price" sortable filter header="Precio"></Column>
-      <Column
-        filter
-        sortable
-        field="category"
-        header="Categoría"
-        body={(product) => product.category?.name || 'N/A'}
-      ></Column>
-      <Column
-        align={'right'}
-        body={(product) => (
-          <ButtonGroup>
+    };
+    updateHeight();
+    window.addEventListener('resize', updateHeight);
+    return () => window.removeEventListener('resize', updateHeight);
+  }, []);
+
+  return (
+    <div className={styles.containerTable} ref={containerRef}>
+      <DataTable
+        className={styles.table}
+        resizableColumns
+        virtualScrollerOptions={{ itemSize: 25 }}
+        scrollable
+        style={{ height: tableHeight }}
+        scrollHeight={tableHeight}
+        selectionMode="single"
+        value={products}
+        header={
+          <div className={styles.header}>
+            <h2>Productos</h2>
             <Button
-              icon="pi pi-pencil"
-              label="Editar"
+              onClick={() => setIsCreatingNewProduct(true)}
+              icon="pi pi-plus"
+              severity="info"
               size="small"
-              loading={isUpdating}
-              onClick={() => {
-                setIsEditingProduct(true);
-                setProductOpen(product);
-              }}
+              label="Agregar Producto"
             />
-            <Button
-              icon="pi pi-trash"
-              label="Eliminar"
-              size="small"
-              severity="danger"
-              loading={isDeleting}
-              onClick={() => setIdProductToDelete(product.id)}
-            />
-          </ButtonGroup>
-        )}
-      ></Column>
-    </DataTable>
+          </div>
+        }
+        loading={isLoading}
+        sortOrder={-1}
+        removableSort
+        sortField="name"
+        tableStyle={{ minWidth: '50rem' }}
+        onRowClick={(product) => setProductOpen(product.data as Product)}
+      >
+        <Column field="name" sortable filter header="Nombre"></Column>
+        <Column field="price" sortable filter header="Precio"></Column>
+        <Column
+          filter
+          sortable
+          field="category"
+          header="Categoría"
+          body={(product) => product.category?.name || 'N/A'}
+        ></Column>
+        <Column
+          align={'right'}
+          body={(product) => (
+            <div className={styles.buttonGroup}>
+              <Button
+                rounded
+                icon="pi pi-pencil"
+                size="small"
+                severity="warning"
+                loading={isUpdating}
+                onClick={() => {
+                  setIsEditingProduct(true);
+                  setProductOpen(product);
+                }}
+              />
+              <Button
+                icon="pi pi-trash"
+                size="small"
+                severity="danger"
+                rounded
+                loading={isDeleting}
+                onClick={() => setIdProductToDelete(product.id)}
+              />
+            </div>
+          )}
+        ></Column>
+      </DataTable>
+    </div>
   );
 };
 export default DataTableProducts;

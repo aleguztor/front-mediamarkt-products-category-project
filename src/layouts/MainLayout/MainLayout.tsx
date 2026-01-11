@@ -26,7 +26,9 @@ const MainLayout = () => {
   return (
     <div className={styles.mainLayoutContainer}>
       <header className={styles.header}>
-        <a href="/">MediaMarkt Products</a>
+        <a href="/">
+          MediaMarkt <span className={styles.headerSpan}>Productos</span>
+        </a>
       </header>
       <div className={styles.menuBarContainer}>
         <Menubar className={styles.menuBar} model={items} />
@@ -35,7 +37,14 @@ const MainLayout = () => {
         <Outlet />
       </main>
       <footer className={styles.footer}>
-        <p>Creado por Alejandro Guzmán Torres</p>
+        <div className={styles.footerInfo}>
+          <p>
+            Creado por <strong>Alejandro Guzmán Torres</strong>
+          </p>
+          <p>
+            <strong>Prueba IT </strong>Mediamarkt
+          </p>
+        </div>
       </footer>
     </div>
   );

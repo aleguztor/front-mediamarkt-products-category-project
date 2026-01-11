@@ -6,12 +6,15 @@
 
 .sectionModuleContainer {
   max-width: 1280px;
-  padding: 2rem;
   width: 100%;
   margin: 0 auto;
   margin-top: 10px;
   border-radius: 8px;
   flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
 }
 
 .menuBar {
@@ -21,43 +24,53 @@
   border-top-left-radius: 0;
   border-top-right-radius: 0;
   border: none;
-  background: linear-gradient(-90deg, white 0%, var(--surface-200) 100%);
+  padding: 0.5rem;
+  background: white;
 }
 
 .header {
-  background: linear-gradient(90deg, var(--surface-50) 0%, var(--surface-200) 100%);
-  color: var(--text-secondary-color);
+  background: var(--primary-color);
+  color: var(--primary-color-text);
+  padding: var(--content-padding);
+
   a {
-    transition: 200ms;
     display: block;
     text-decoration: none;
     color: inherit;
     font-weight: 700;
     font-size: 25px;
-    padding: 0rem 2rem;
     max-width: 1280px;
-    width: 100%;
     margin: 0 auto;
-    padding: 1rem 2rem;
-  }
-  a:hover {
-    color: var(--text-color);
+
+    .headerSpan {
+      font-weight: 300;
+    }
   }
 }
 .footer {
   margin-top: 10px;
-  background-color: var(--surface-200);
+  background-color: var(--gray-100);
   padding: 2rem;
-  text-align: center;
-  color: var(--text-color);
+  color: black;
   border-top-left-radius: 8px;
   border-top-right-radius: 8px;
+  .footerInfo {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 var(--content-padding);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+  }
 }
 
 :global(.active-menuitem) :global(.p-menuitem-text),
 :global(.active-menuitem) :global(.p-menuitem-icon) {
   color: var(--highlight-text-color);
-  font-weight: bolder;
+}
+:global(.active-menuitem) :global(.p-menuitem-content) {
+  background-color: var(--highlight-bg);
 }
 
 @media screen and (max-width: 960px) {

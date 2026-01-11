@@ -34,10 +34,12 @@ const DialogEditingProduct = ({
       icons={
         mode !== 'create' && (
           <Button
-            style={{ padding: 5 }}
+            style={{ marginRight: 5 }}
             size="small"
+            rounded
             icon={isEditingProduct ? 'pi pi-eye' : 'pi pi-pencil'}
             text
+            severity={isEditingProduct ? 'info' : 'warning'}
             outlined
             onClick={() => setIsEditingProduct(!isEditingProduct)}
           />
