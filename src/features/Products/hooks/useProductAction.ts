@@ -1,4 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useToast } from '@/Contexts/ToastContext';
 import { Product } from '@/core/domain/Product';
 import { CreateProductUseCase } from '../application/CreateProductUseCase';
 import { DeleteProductByIdUseCase } from '../application/DeleteProductByIdUseCase';
@@ -16,6 +17,7 @@ const deleteUC = new DeleteProductByIdUseCase(repo);
 
 export const useProductActions = () => {
   const queryClient = useQueryClient();
+  const { showToast } = useToast();
   const QUERY_KEY = ['products'];
 
   // 1. Obtener todos los productos
@@ -27,19 +29,28 @@ export const useProductActions = () => {
   // 2. Crear producto
   const createMutation = useMutation({
     mutationFn: (newProduct: Omit<Product, 'id'>) => createUC.execute(newProduct),
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: QUERY_KEY }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: QUERY_KEY });
+      showToast('success', 'Completado', 'Producto creado con éxito');
+    },
   });
 
   // 3. Actualizar producto (Partial pero obliga a ID y Precio)
   const updateMutation = useMutation({
     mutationFn: (data: Partial<Product> & Pick<Product, 'id' | 'price'>) => updateUC.execute(data),
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: QUERY_KEY }),
+    onSuccess: () => {
+      showToast('success', 'Completado', 'Producto actualizado con éxito');
+      queryClient.invalidateQueries({ queryKey: QUERY_KEY });
+    },
   });
 
   // 4. Eliminar producto
   const deleteMutation = useMutation({
     mutationFn: (id: string) => deleteUC.execute(id),
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: QUERY_KEY }),
+    onSuccess: () => {
+      showToast('success', 'Completado', 'Producto eliminado con éxito');
+      queryClient.invalidateQueries({ queryKey: QUERY_KEY });
+    },
   });
 
   const getProduct = async (id: string) => await getByIdUC.execute(id);
