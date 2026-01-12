@@ -1,13 +1,16 @@
 import { useMemo, useRef, useState } from 'react';
-import { FilterMatchMode } from 'primereact/api';
+import { FilterMatchMode, FilterService } from 'primereact/api';
 import { Button } from 'primereact/button';
 import { ButtonGroup } from 'primereact/buttongroup';
-import { Column } from 'primereact/column';
+import { Column, ColumnFilterElementTemplateOptions } from 'primereact/column';
 import { DataTable, DataTableFilterMeta } from 'primereact/datatable';
 import { IconField } from 'primereact/iconfield';
 import { InputIcon } from 'primereact/inputicon';
+import { InputNumber } from 'primereact/inputnumber';
 import { InputText } from 'primereact/inputtext';
+import { MultiSelect, MultiSelectChangeEvent } from 'primereact/multiselect';
 import { Product } from '@/core/domain/Product';
+import { useCategoryActions } from '@/features/Categories/hooks/useCategoryAction';
 import styles from './product.module.css';
 
 export interface DataTableProductsProps {
@@ -35,12 +38,12 @@ const DataTableProducts = ({
   const dt = useRef<DataTable<Product[]>>(null);
   const initialFilters: DataTableFilterMeta = {
     global: { value: null, matchMode: FilterMatchMode.CONTAINS },
-    name: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
-    'category.name': { value: null, matchMode: FilterMatchMode.STARTS_WITH },
-    price: { value: null, matchMode: FilterMatchMode.EQUALS },
+    name: { value: null, matchMode: FilterMatchMode.CONTAINS },
+    'category.name': { value: null, matchMode: FilterMatchMode.IN },
+    price: { value: [null, null], matchMode: FilterMatchMode.CUSTOM },
   };
   const [filters, setFilters] = useState(initialFilters);
-
+  const { categories } = useCategoryActions();
   const clearFilters = () => {
     setFilters(initialFilters);
     setGlobalFilterValue('');
@@ -56,28 +59,82 @@ const DataTableProducts = ({
     setGlobalFilterValue(value);
   };
   const hasFilters = useMemo(() => {
-    return Object.values(filters).some((filter) => {
-      if (!filter) return false;
+    return Object.entries(filters).some(([key, filter]) => {
+      if (!filter || !('value' in filter)) return false;
 
-      // Si es un array de filtros (filtros avanzados)
-      if (Array.isArray(filter)) {
-        return filter.some((f) => f.value !== null && f.value !== '');
+      const value = (filter as any).value;
+
+      // 1. Caso especial: Rango de Precio (Array de dos valores [from, to])
+      if (key === 'price' && Array.isArray(value)) {
+        return value.some((v) => v !== null && v !== '');
       }
 
-      // Si es un filtro simple
-      return (filter as any).value !== null && (filter as any).value !== '';
+      // 2. Caso especial: Categoría (MultiSelect usa Array de strings)
+      if (key === 'category.name' && Array.isArray(value)) {
+        return value.length > 0;
+      }
+
+      // 3. Caso general: Strings, números o null
+      return value !== null && value !== '';
     });
   }, [filters]);
 
+  const categoryOptions = useMemo(() => {
+    return categories.map((cat) => cat.name);
+  }, [categories]);
+  const categoryFilterTemplate = (options: ColumnFilterElementTemplateOptions) => {
+    return (
+      <MultiSelect
+        value={options.value}
+        options={categoryOptions}
+        onChange={(e: MultiSelectChangeEvent) => options.filterApplyCallback(e.value)}
+        placeholder="Cualquiera"
+        maxSelectedLabels={1} // Muestra "2 categorías" si hay muchas seleccionadas
+        selectedItemsLabel={'{0} seleccionadas'}
+        style={{ minWidth: '14rem' }}
+      />
+    );
+  };
+  const PriceRowFilterTemplate = (options: ColumnFilterElementTemplateOptions) => {
+    const [from, to] = options.value ?? [null, null];
+    return (
+      <div style={{ display: 'flex', gap: '10px' }}>
+        <InputNumber
+          mode="currency"
+          currency="EUR"
+          locale="es-ES"
+          value={from}
+          onChange={(e) => options.filterApplyCallback([e.value, to])}
+          placeholder="Desde"
+        />
+        <InputNumber
+          value={to}
+          mode="currency"
+          currency="EUR"
+          locale="es-ES"
+          onChange={(e) => options.filterApplyCallback([from, e.value])}
+          placeholder="Hasta"
+        />
+      </div>
+    );
+  };
+
+  FilterService.register('custom_price', (value, filters) => {
+    const [from, to] = filters ?? [null, null];
+    if (from === null && to === null) return true;
+    if (from !== null && to === null) return from <= value;
+    if (from === null && to !== null) return value <= to;
+    return from <= value && value <= to;
+  });
   return (
     <DataTable
+      filterDisplay="row"
       ref={dt}
+      resizableColumns
       filters={filters}
       className={styles.table}
       onFilter={(e) => setFilters(e.filters)}
-      resizableColumns
       stripedRows
-      virtualScrollerOptions={{ itemSize: 25 }}
       scrollable
       scrollHeight="flex"
       selectionMode="single"
@@ -124,19 +181,28 @@ const DataTableProducts = ({
       <Column field="name" sortable filter header="Nombre" />
       <Column
         filter
+        showFilterMenu={false}
         sortable
-        field="category.name"
+        filterMenuStyle={{ width: '14rem' }}
+        filterField="category.name"
         header="Categoría"
+        filterElement={categoryFilterTemplate}
+        filterPlaceholder="Buscar por categoría"
         body={(product) => product.category?.name || 'N/A'}
       />
       <Column
         field="price"
-        sortable
+        style={{ minWidth: '15rem' }}
         filter
+        sortable
+        dataType="numeric"
+        showFilterMenu={false}
         header="Precio"
+        filterElement={PriceRowFilterTemplate}
         body={(product) => `${product.price + ' €'}`}
       />
       <Column
+        style={{ minWidth: '10rem' }}
         align={'right'}
         body={(product) => (
           <div className={styles.buttonGroup}>

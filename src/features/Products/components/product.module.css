@@ -1,5 +1,4 @@
 .table {
-  flex: 1;
   .header {
     display: flex;
     align-items: center;
@@ -14,18 +13,6 @@
     align-items: center;
     justify-content: end;
   }
-}
-.table :global(.p-datatable-wrapper) {
-  display: flex;
-  flex-direction: column;
-  flex: 1 1 auto;
-  min-height: 0;
-}
-
-/* El contenedor del Virtual Scroller debe llenar el wrapper */
-.table :global(.p-virtualscroller) {
-  flex: 1 1 auto;
-  height: 100%;
 }
 .formProduct {
   display: flex;
