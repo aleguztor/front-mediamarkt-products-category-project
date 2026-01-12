@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Product } from '@/core/domain/Product';
-import DataTableProducts from '@/features/Products/components/DataTableProducts';
+import DataTableProducts from '@/features/Products/components/DataTableProduct/DataTableProducts';
 import DialogDeleteProduct from '@/features/Products/components/DialogDeleteProduct';
 import DialogEditingProduct from '@/features/Products/components/DialogEditingProducts';
 import { useProductActions } from '@/features/Products/hooks/useProductAction';
