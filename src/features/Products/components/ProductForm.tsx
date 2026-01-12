@@ -1,4 +1,5 @@
 import { Activity } from 'react';
+import { useSelector } from 'react-redux';
 import { Button } from 'primereact/button';
 import { Dropdown } from 'primereact/dropdown';
 import { InputNumber } from 'primereact/inputnumber';
@@ -9,6 +10,7 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { Product } from '@/core/domain/Product';
 import { useCategoryActions } from '@/features/Categories/hooks/useCategoryAction';
+import { RootState } from '@/store';
 import styles from './product.module.css';
 
 const ProductSchema = Yup.object().shape({
@@ -23,10 +25,9 @@ interface ProductFormProps {
   onSave: (values: any) => void;
   onCancel: () => void;
   loading: boolean;
-  mode: 'create' | 'edit' | 'view';
 }
 
-export const ProductForm = ({ product, onSave, onCancel, loading, mode }: ProductFormProps) => {
+export const ProductForm = ({ product, onSave, onCancel, loading }: ProductFormProps) => {
   const formik = useFormik({
     initialValues: {
       id: product?.id || '',
@@ -41,7 +42,7 @@ export const ProductForm = ({ product, onSave, onCancel, loading, mode }: Produc
       onSave(values);
     },
   });
-
+  const mode = useSelector((state: RootState) => state.products.editingMode);
   const { categories, isLoading } = useCategoryActions();
 
   return (

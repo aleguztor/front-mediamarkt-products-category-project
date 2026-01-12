@@ -1,6 +1,8 @@
+import { useSelector } from 'react-redux';
 import { Button } from 'primereact/button';
 import { Dialog } from 'primereact/dialog';
-import ProductForm from '@/components/Product/ProductForm';
+import ProductForm from '@/features/Products/components/ProductForm';
+import { RootState } from '@/store';
 
 export interface DialogEditingProductProps {
   productOpen: any;
@@ -11,7 +13,6 @@ export interface DialogEditingProductProps {
   createProduct: (values: any, options: { onSuccess: () => void }) => void;
   updateProduct: (values: any, options: { onSuccess: () => void }) => void;
   isLoading: boolean;
-  mode: 'create' | 'edit' | 'view';
 }
 
 const DialogEditingProduct = ({
@@ -23,8 +24,8 @@ const DialogEditingProduct = ({
   createProduct,
   updateProduct,
   isLoading,
-  mode,
 }: DialogEditingProductProps) => {
+  const mode = useSelector((state: RootState) => state.products.editingMode);
   return (
     <Dialog
       draggable={false}
@@ -60,7 +61,6 @@ const DialogEditingProduct = ({
                 onSuccess: () => closeDialogEditingProduct(),
               });
         }}
-        mode={mode}
       />
     </Dialog>
   );

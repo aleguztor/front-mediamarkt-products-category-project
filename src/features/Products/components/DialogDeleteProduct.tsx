@@ -1,5 +1,4 @@
 import { Button } from 'primereact/button';
-import { ButtonGroup } from 'primereact/buttongroup';
 import { Dialog } from 'primereact/dialog';
 
 export interface DialogDeleteProductProps {
@@ -22,19 +21,25 @@ const DialogDeleteProduct = ({
       style={{ width: '50vw' }}
       onHide={() => setIdProductToDelete('')}
       footer={
-        <ButtonGroup>
-          <Button loading={isDeleting} label="Cancelar" onClick={() => setIdProductToDelete('')} />
+        <>
+          <Button
+            size="small"
+            label="Cancelar"
+            icon="pi pi-times"
+            text
+            loading={isDeleting}
+            onClick={() => setIdProductToDelete('')}
+          />
           <Button
             loading={isDeleting}
             label="Eliminar"
             severity="danger"
             icon="pi pi-trash"
-            outlined
             onClick={() =>
               deleteProduct(IdProductToDelete, { onSuccess: () => setIdProductToDelete('') })
             }
           />
-        </ButtonGroup>
+        </>
       }
     ></Dialog>
   );

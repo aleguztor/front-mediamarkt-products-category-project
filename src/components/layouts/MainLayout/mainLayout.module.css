@@ -7,14 +7,17 @@
 .sectionModuleContainer {
   max-width: 1280px;
   width: 100%;
-  margin: 0 auto;
-  margin-top: 10px;
+  margin: 10px auto 0;
   border-radius: 8px;
-  flex: 1;
   display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100%;
+  flex-direction: column;
+  flex: 1;
+  min-height: 380px;
+  position: relative;
+  background-color: white;
+  box-shadow: 0px 1px 6px rgba(0, 0, 0, 0.05);
+  border-radius: var(--border-radius);
+  overflow: hidden;
 }
 
 .menuBar {
@@ -48,20 +51,23 @@
   }
 }
 .footer {
-  margin-top: 10px;
-  background-color: var(--gray-100);
-  padding: 2rem;
-  color: black;
+  padding: var(--content-padding);
+  color: var(--surface-300);
   border-top-left-radius: 8px;
   border-top-right-radius: 8px;
+  height: auto;
+  display: flex;
+  align-items: center;
   .footerInfo {
+    width: 100%;
     max-width: 1280px;
     margin: 0 auto;
     padding: 0 var(--content-padding);
     display: flex;
-    align-items: center;
+    flex-wrap: wrap-reverse;
     justify-content: space-between;
     gap: 10px;
+    text-align: center;
   }
 }
 

@@ -1,5 +1,5 @@
 import { RouteObject } from 'react-router-dom';
-import { MainLayout } from '@/layouts';
+import { MainLayout } from '@/components/layouts';
 import { HomePage, ProductsPage } from '@/pages';
 import { PATHS } from './paths';
 
