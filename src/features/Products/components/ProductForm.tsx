@@ -14,9 +14,9 @@ import { RootState } from '@/store';
 import styles from './product.module.css';
 
 const ProductSchema = Yup.object().shape({
-  name: Yup.string().required('El nombre es obligatorio').min(2, 'Muy corto'),
+  name: Yup.string().required('El nombre es obligatorio').min(2, 'Muy corto').max(50),
   price: Yup.number().required('El precio es obligatorio').positive('Debe ser mayor a 0'),
-  description: Yup.string().min(10, 'La descripción es muy corta'),
+  description: Yup.string().min(10, 'La descripción es muy corta').max(250),
   categoryId: Yup.string().nullable(),
 });
 
