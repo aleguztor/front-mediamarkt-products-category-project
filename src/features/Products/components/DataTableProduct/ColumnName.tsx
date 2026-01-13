@@ -1,9 +1,16 @@
 import { Column } from 'primereact/column';
+import styles from './datatableproduct.module.css';
 
-// Si no usa props, no las declares
 const ColumnName = () => {
   return (
-    <Column field="name" sortable filter header="Nombre" filterPlaceholder="Buscar por nombre" />
+    <Column
+      field="name"
+      sortable
+      filter
+      header="Nombre"
+      filterPlaceholder="Buscar por nombre"
+      body={(product) => <span className={styles.spanName}>{product.name}</span>}
+    />
   );
 };
 

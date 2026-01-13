@@ -43,7 +43,7 @@ const HeaderDataTableProduct = ({
         <Button
           onClick={() => setIsCreatingNewProduct(true)}
           icon="pi pi-plus"
-          severity="info"
+          style={{ backgroundColor: 'var(--red)', border: '1px solid var(--red)' }}
           size="small"
           label={window.innerWidth > 600 ? 'Agregar Producto' : ''}
         />

@@ -100,7 +100,6 @@ const DataTableProducts = ({
       filters={filters}
       className={styles.table}
       onFilter={(e) => setFilters(e.filters)}
-      stripedRows
       scrollable
       scrollHeight="flex"
       selectionMode="single"
@@ -121,9 +120,9 @@ const DataTableProducts = ({
       tableStyle={{ minWidth: '50rem' }}
       onRowClick={(product) => setProductOpen(product.data as Product)}
     >
+      {ColumnPrice()}
       {ColumnName()}
       {ColumnCategory({ categoryOptions })}
-      {ColumnPrice()}
       {ColumnActions({ isDeleting, isUpdating, openEditingProduct, setIdProductToDelete })}
     </DataTable>
   );

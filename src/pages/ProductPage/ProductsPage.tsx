@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
+import TitlePage from '@/components/TitlePage/TitlePage';
 import { Product } from '@/core/domain/Product';
 import DataTableProducts from '@/features/Products/components/DataTableProduct/DataTableProducts';
 import DialogDeleteProduct from '@/features/Products/components/DialogDeleteProduct';
@@ -36,6 +37,7 @@ const ProductPage = () => {
 
   return (
     <>
+      <TitlePage title="Productos" />
       <DialogEditingProduct
         productOpen={productOpen}
         isEditingProduct={isEditingProduct}

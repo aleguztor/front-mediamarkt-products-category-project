@@ -14,7 +14,7 @@ const MainLayout = () => {
     () => [
       {
         label: 'Productos',
-        icon: 'pi pi-book',
+        // icon: 'pi pi-book',
         url: pathProduct,
         className: location.pathname === pathProduct ? 'active-menuitem' : '',
         command: () => navigate(pathProduct),
@@ -25,13 +25,22 @@ const MainLayout = () => {
 
   return (
     <div className={styles.mainLayoutContainer}>
-      <header className={styles.header}>
-        <a href="/">
-          MediaMarkt <span className={styles.headerSpan}>Productos</span>
-        </a>
-      </header>
-      <div className={styles.menuBarContainer}>
-        <Menubar className={styles.menuBar} model={items} />
+      <div className={styles.header}>
+        <Menubar
+          start={
+            <a className={styles.iconHome} href="/">
+              <img
+                className={styles.img}
+                width={200}
+                height={'auto'}
+                src="https://cms-images.mmst.eu/osyynfyvlyjc/44h8niXHULqXsrJQIX29AZ/56e82d73704471511e9484f373b39f39/MM_logo_white.svg?q=80"
+                alt="Mediamarkt logo"
+              />{' '}
+            </a>
+          }
+          className={styles.menuBar}
+          model={items}
+        />
       </div>
       <main className={styles.sectionModuleContainer}>
         <Outlet />

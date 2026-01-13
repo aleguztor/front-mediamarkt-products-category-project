@@ -7,17 +7,13 @@
 .sectionModuleContainer {
   max-width: 1280px;
   width: 100%;
-  margin: 10px auto 0;
-  border-radius: 8px;
+  margin: 0 auto;
   display: flex;
   flex-direction: column;
   flex: 1;
   min-height: 380px;
   position: relative;
-  background-color: white;
-  box-shadow: 0px 1px 6px rgba(0, 0, 0, 0.05);
   border-radius: var(--border-radius);
-  overflow: hidden;
 }
 
 .menuBar {
@@ -28,27 +24,39 @@
   border-top-right-radius: 0;
   border: none;
   padding: 0.5rem;
-  background: white;
+  background: var(--red);
+
+  :global(.active-menuitem) :global(.p-menuitem-content) {
+    background-color: transparent;
+  }
+  :global(.p-menuitem-content:hover) {
+    background-color: inherit;
+  }
+  :global(.p-menuitem-icon) {
+    color: white;
+  }
+  :global(.p-menuitem-text) {
+    color: white;
+    font-weight: bolder;
+    transition: 200ms;
+  }
+  :global(.p-menuitem-text:hover) {
+    text-decoration: underline;
+  }
 }
 
 .header {
-  background: var(--primary-color);
+  background: var(--red);
   color: var(--primary-color-text);
   padding: var(--content-padding);
+}
 
-  a {
-    display: block;
-    text-decoration: none;
-    color: inherit;
-    font-weight: 700;
-    font-size: 25px;
-    max-width: 1280px;
-    margin: 0 auto;
-
-    .headerSpan {
-      font-weight: 300;
-    }
-  }
+.iconHome {
+  text-decoration: none;
+  color: inherit;
+  font-weight: 700;
+  font-size: 25px;
+  margin-right: var(--content-padding);
 }
 .footer {
   padding: var(--content-padding);
@@ -71,20 +79,7 @@
   }
 }
 
-:global(.active-menuitem) :global(.p-menuitem-text),
-:global(.active-menuitem) :global(.p-menuitem-icon) {
-  color: var(--highlight-text-color);
-}
-:global(.active-menuitem) :global(.p-menuitem-content) {
-  background-color: var(--highlight-bg);
-}
-
 @media screen and (max-width: 960px) {
-  .header {
-    a {
-      padding: 0.5rem 1rem;
-    }
-  }
   .sectionModuleContainer {
     padding: 1rem;
   }

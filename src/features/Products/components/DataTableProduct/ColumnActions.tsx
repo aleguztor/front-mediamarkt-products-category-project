@@ -26,19 +26,15 @@ const ColumnActions = ({
             rounded
             icon="pi pi-pencil"
             size="small"
-            severity="warning"
+            severity="secondary"
             loading={isUpdating}
-            onClick={() => {
-              openEditingProduct(product);
-              // setIsEditingProduct(true);
-              // setProductOpen(product);
-            }}
+            onClick={() => openEditingProduct(product)}
           />
           <Button
             rounded
             icon="pi pi-trash"
             size="small"
-            severity="danger"
+            severity="secondary"
             loading={isDeleting}
             onClick={() => setIdProductToDelete(product.id)}
           />
