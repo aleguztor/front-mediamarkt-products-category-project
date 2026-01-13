@@ -43,6 +43,10 @@
   :global(.p-menuitem-text:hover) {
     text-decoration: underline;
   }
+
+  :global(.p-menubar-button) {
+    color: white;
+  }
 }
 
 .header {
@@ -82,5 +86,8 @@
 @media screen and (max-width: 960px) {
   .sectionModuleContainer {
     padding: 1rem;
+  }
+  :global(.p-menubar-root-list) :global(.p-menuitem-link) :global(.p-menuitem-text) {
+    color: black;
   }
 }

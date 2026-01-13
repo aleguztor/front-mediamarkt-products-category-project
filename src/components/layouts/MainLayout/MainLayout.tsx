@@ -35,7 +35,7 @@ const MainLayout = () => {
                 height={'auto'}
                 src="https://cms-images.mmst.eu/osyynfyvlyjc/44h8niXHULqXsrJQIX29AZ/56e82d73704471511e9484f373b39f39/MM_logo_white.svg?q=80"
                 alt="Mediamarkt logo"
-              />{' '}
+              />
             </a>
           }
           className={styles.menuBar}
