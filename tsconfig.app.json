@@ -7,7 +7,7 @@
     "lib": ["ES2020", "DOM", "DOM.Iterable"],
     "module": "ESNext",
     "skipLibCheck": true, // <--- Evita errores de tipos en node_modules como .mts
-
+    "allowArbitraryExtensions": true,
     /* Modo de empaquetado */
     "moduleResolution": "node",
     "allowImportingTsExtensions": true,
@@ -22,6 +22,7 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
+    "types": ["vite/client"],
 
     /* Alias (Para importar con @/...) */
     "baseUrl": ".",

@@ -1,6 +1,40 @@
+:root {
+  --red: #df0000;
+}
 #root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+  max-height: 100dvh;
+  height: 100dvh;
+}
+.p-column-header-content {
+  color: black !important;
+}
+.p-highlight {
+  .p-icon {
+    color: #df0000 !important;
+  }
+}
+
+.p-button-secondary {
+  background-color: var(--surface-100);
+  border: none;
+  .p-button-icon {
+    color: var(--surface-800) !important;
+  }
+}
+
+.p-checkbox.p-highlight .p-checkbox-box {
+  background: var(--surface-800);
+  border: none;
+  .p-icon {
+    color: white !important;
+  }
+}
+.p-multiselect-panel .p-multiselect-items .p-multiselect-item.p-highlight {
+  background: var(--red) !important;
+  color: white;
+}
+.p-multiselect-panel
+  .p-multiselect-items
+  .p-multiselect-item:not(.p-highlight):not(.p-disabled).p-focus {
+  background: rgb(255, 238, 238) !important;
 }
