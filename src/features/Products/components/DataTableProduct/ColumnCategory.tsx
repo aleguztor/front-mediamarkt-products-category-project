@@ -10,6 +10,7 @@ const ColumnCategory = ({ categoryOptions }: ColumnCategory) => {
       filter
       showFilterMenu={false}
       sortable
+      field="category.name"
       filterMenuStyle={{ width: '14rem' }}
       filterField="category.name"
       header="Categoría"
