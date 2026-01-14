@@ -1,16 +1,18 @@
-import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { keepPreviousData } from '@tanstack/react-query';
 import { useToast } from '@/Contexts/ToastContext';
 import { Product } from '@/core/domain/Product';
 import { PagedList } from '@/core/models/Common/PagedList';
 import { ProductsFilterRequest } from '@/core/models/ProductsFilterRequest';
+import { RootState } from '@/store';
 import { CreateProductUseCase } from '../application/CreateProductUseCase';
 import { DeleteProductByIdUseCase } from '../application/DeleteProductByIdUseCase';
 import { GetAllProductsUseCase } from '../application/GetAllProductsUseCase';
 import { GetProductByIdUseCase } from '../application/GetProductByIdUseCase';
 import { UpdateProductUseCase } from '../application/UpdateProductUseCase';
 import { ProductRemoteRepository } from '../data/ProductsRemoteRepository';
+import { setFilters } from '../store/productsSlice';
 
 const repo = new ProductRemoteRepository();
 const getAllUC = new GetAllProductsUseCase(repo);
@@ -21,13 +23,10 @@ const deleteUC = new DeleteProductByIdUseCase(repo);
 
 export const useProductActions = () => {
   const queryClient = useQueryClient();
+  const dispatch = useDispatch();
   const { showToast } = useToast();
   const QUERY_KEY = ['products'];
-
-  const [filters, setFilters] = useState<ProductsFilterRequest>({
-    pageNumber: 1,
-    pageSize: 10,
-  });
+  const filters = useSelector((state: RootState) => state.products.filters);
 
   // 1. Obtener todos los productos
   const productsQuery = useQuery<PagedList<Product>>({
@@ -72,12 +71,7 @@ export const useProductActions = () => {
 
   // 5. Función para actualizar filtros desde el componente (UI)
   const updateFilters = (newFilters: Partial<ProductsFilterRequest>) => {
-    setFilters((prev) => ({
-      ...prev,
-      ...newFilters,
-      // Si el filtro no es de página, volvemos a la página 1 normalmente
-      pageNumber: newFilters.pageNumber ?? 1,
-    }));
+    dispatch(setFilters(newFilters));
   };
   const getProduct = async (id: string) => await getByIdUC.execute(id);
 
@@ -100,8 +94,6 @@ export const useProductActions = () => {
       totalPages: productsQuery.data?.totalPages ?? 0,
       currentPage: productsQuery.data?.currentPage ?? 1,
     },
-    filters,
-    setFilters,
     updateFilters,
     getProduct,
   };

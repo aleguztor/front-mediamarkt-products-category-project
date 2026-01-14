@@ -3,16 +3,21 @@ import { Button } from 'primereact/button';
 import { Column } from 'primereact/column';
 import { Product } from '@/core/domain/Product';
 import { useProductActions } from '../../hooks/useProductAction';
-import { setIdProductToDelete } from '../../store/productsSlice';
+import {
+  setIdProductToDelete,
+  setIsEditingProduct,
+  setProductOpen,
+} from '../../store/productsSlice';
 import styles from './datatableproduct.module.css';
 
-export interface ColumnActions {
-  openEditingProduct: (product: Product) => void;
-}
-
-const ColumnActions = ({ openEditingProduct }: ColumnActions) => {
+const ColumnActions = () => {
   const dispatch = useDispatch();
   const { isUpdating, isDeleting } = useProductActions();
+
+  const openEditingProduct = (product: Product) => {
+    dispatch(setIsEditingProduct(true));
+    dispatch(setProductOpen(product));
+  };
   return (
     <Column
       style={{ minWidth: '10rem' }}

@@ -1,10 +1,14 @@
+import { useMemo } from 'react';
 import { Column, ColumnFilterElementTemplateOptions } from 'primereact/column';
 import { MultiSelect, MultiSelectChangeEvent } from 'primereact/multiselect';
+import { useCategoryActions } from '@/features/Categories/hooks/useCategoryAction';
 
-export interface ColumnCategory {
-  categoryOptions: string[];
-}
-const ColumnCategory = ({ categoryOptions }: ColumnCategory) => {
+const ColumnCategory = () => {
+  const { categories } = useCategoryActions();
+  const categoryOptions = useMemo(() => {
+    return categories.map((cat) => cat.name);
+  }, [categories]);
+
   return (
     <Column
       filter
