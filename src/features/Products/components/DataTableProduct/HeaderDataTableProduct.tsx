@@ -23,7 +23,6 @@ const HeaderDataTableProduct = ({
 
   const hasFilters = useMemo(() => {
     const nonFilterKeys = ['pageNumber', 'pageSize'];
-    console.log(filters);
     return Object.entries(filters).some(([key, value]) => {
       if (nonFilterKeys.includes(key)) return false;
 
@@ -31,13 +30,11 @@ const HeaderDataTableProduct = ({
         return value.length > 0;
       }
 
-      // Para strings o números
       return value !== null && value !== '' && value !== undefined;
     });
   }, [filters]);
   return (
     <div className={styles.header}>
-      {hasFilters + ''}
       <IconField style={{ flex: 1 }} iconPosition="left">
         <InputIcon className="pi pi-search" />
         <InputText

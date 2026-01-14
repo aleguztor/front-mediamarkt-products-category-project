@@ -56,9 +56,10 @@ const productSlice = createSlice({
       state.isCreatingNewProduct = action.payload;
     },
     setFilters: (state, action: PayloadAction<Partial<ProductsFilterRequest>>) => {
-      state.filters = state.filters = {
+      state.filters = {
+        ...state.filters,
         ...action.payload,
-        ...intialStateFilters,
+        pageNumber: action.payload.pageNumber ?? intialStateFilters.pageNumber,
       };
     },
     setFiltersFromDataTable: (state, action: PayloadAction<DataTableFilterMeta>) => {

@@ -85,46 +85,43 @@ const DataTableProducts = () => {
   };
 
   return (
-    <>
-      {JSON.stringify(filtersFromDataTable)}
-      <DataTable
-        lazy
-        filterDisplay="row"
-        first={(filters.pageNumber - 1) * filters.pageSize}
-        rows={filters.pageSize}
-        totalRecords={pagination.totalCount}
-        onPage={onPageChange}
-        ref={dt}
-        paginator
-        resizableColumns
-        filters={filtersFromDataTable}
-        className={styles.table}
-        onFilter={onFilterChange}
-        scrollable
-        rowsPerPageOptions={[5, 10, 25, 50, 100]}
-        scrollHeight="flex"
-        selectionMode="single"
-        value={products}
-        header={
-          <HeaderDataTableProduct
-            clearFilters={clearFilters}
-            globalFilterValue={globalFilterValue}
-            onGlobalFilterChange={onGlobalFilterChange}
-          />
-        }
-        loading={isLoading}
-        sortOrder={-1}
-        removableSort
-        sortField="name"
-        tableStyle={{ minWidth: '50rem' }}
-        onRowClick={(product) => dispatch(setProductOpen(product.data as Product))}
-      >
-        {ColumnPrice()}
-        {ColumnName()}
-        {ColumnCategory()}
-        {ColumnActions()}
-      </DataTable>
-    </>
+    <DataTable
+      lazy
+      filterDisplay="row"
+      first={(filters.pageNumber - 1) * filters.pageSize}
+      rows={filters.pageSize}
+      totalRecords={pagination.totalCount}
+      onPage={onPageChange}
+      ref={dt}
+      paginator
+      resizableColumns
+      filters={filtersFromDataTable}
+      className={styles.table}
+      onFilter={onFilterChange}
+      scrollable
+      rowsPerPageOptions={[5, 10, 25, 50, 100]}
+      scrollHeight="flex"
+      selectionMode="single"
+      value={products}
+      header={
+        <HeaderDataTableProduct
+          clearFilters={clearFilters}
+          globalFilterValue={globalFilterValue}
+          onGlobalFilterChange={onGlobalFilterChange}
+        />
+      }
+      loading={isLoading}
+      sortOrder={-1}
+      removableSort
+      sortField="name"
+      tableStyle={{ minWidth: '50rem' }}
+      onRowClick={(product) => dispatch(setProductOpen(product.data as Product))}
+    >
+      {ColumnPrice()}
+      {ColumnName()}
+      {ColumnCategory()}
+      {ColumnActions()}
+    </DataTable>
   );
 };
 export default DataTableProducts;

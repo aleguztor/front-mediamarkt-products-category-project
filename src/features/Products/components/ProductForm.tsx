@@ -13,10 +13,14 @@ import { useCategoryActions } from '@/features/Categories/hooks/useCategoryActio
 import { RootState } from '@/store';
 import styles from './product.module.css';
 
+const MAX_DESCRIPTION = 250;
+
 const ProductSchema = Yup.object().shape({
   name: Yup.string().required('El nombre es obligatorio').min(2, 'Muy corto').max(50),
   price: Yup.number().required('El precio es obligatorio').positive('Debe ser mayor a 0'),
-  description: Yup.string().min(10, 'La descripción es muy corta').max(250),
+  description: Yup.string()
+    .min(10, 'La descripción es muy corta')
+    .max(MAX_DESCRIPTION, 'La descripción es demasiado larga'),
   categoryId: Yup.string().nullable(),
 });
 
@@ -57,6 +61,7 @@ export const ProductForm = ({ product, onSave, onCancel, loading }: ProductFormP
           onChange={formik.handleChange}
           className={classNames({ 'p-invalid': formik.touched.name && formik.errors.name })}
         />
+
         {formik.touched.name && formik.errors.name && (
           <small className="p-error">{formik.errors.name as string}</small>
         )}
@@ -87,6 +92,9 @@ export const ProductForm = ({ product, onSave, onCancel, loading }: ProductFormP
             'p-invalid': formik.touched.description && formik.errors.description,
           })}
         />
+        <small className={formik.values.description.length > MAX_DESCRIPTION ? 'p-error' : ''}>
+          {formik.values.description.length} / {MAX_DESCRIPTION}
+        </small>
         {formik.touched.description && formik.errors.description && (
           <small className="p-error">{formik.errors.description as string}</small>
         )}
