@@ -1,31 +1,36 @@
-import { useSelector } from 'react-redux';
+import { useEffect, useMemo } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Button } from 'primereact/button';
 import { Dialog } from 'primereact/dialog';
 import ProductForm from '@/features/Products/components/ProductForm';
 import { RootState } from '@/store';
-
-export interface DialogEditingProductProps {
-  productOpen: any;
-  isEditingProduct: boolean;
-  isCreatingNewProduct: boolean;
-  setIsEditingProduct: (isEditing: boolean) => void;
-  closeDialogEditingProduct: () => void;
-  createProduct: (values: any, options: { onSuccess: () => void }) => void;
-  updateProduct: (values: any, options: { onSuccess: () => void }) => void;
-  isLoading: boolean;
-}
-
-const DialogEditingProduct = ({
-  productOpen,
-  isEditingProduct,
-  isCreatingNewProduct,
+import { useProductActions } from '../hooks/useProductAction';
+import {
+  setEditingMode,
+  setIsCreatingNewProduct,
   setIsEditingProduct,
-  closeDialogEditingProduct,
-  createProduct,
-  updateProduct,
-  isLoading,
-}: DialogEditingProductProps) => {
+  setProductOpen,
+} from '../store/productsSlice';
+
+const DialogEditingProduct = () => {
+  const dispatch = useDispatch();
+  const { isCreating, isUpdating, createProduct, updateProduct } = useProductActions();
+  const isLoading = useMemo(() => isCreating || isUpdating, [isCreating, isUpdating]);
   const mode = useSelector((state: RootState) => state.products.editingMode);
+  const { productOpen, isEditingProduct, isCreatingNewProduct } = useSelector(
+    (state: RootState) => state.products,
+  );
+
+  const closeDialogEditingProduct = () => {
+    dispatch(setIsEditingProduct(false));
+    dispatch(setIsCreatingNewProduct(false));
+    dispatch(setProductOpen(null));
+  };
+
+  useEffect(() => {
+    dispatch(setEditingMode(isEditingProduct ? 'edit' : productOpen ? 'view' : 'create'));
+  }, [isEditingProduct, productOpen, dispatch]);
+
   return (
     <Dialog
       draggable={false}
@@ -42,7 +47,7 @@ const DialogEditingProduct = ({
             text
             severity={isEditingProduct ? 'info' : 'warning'}
             outlined
-            onClick={() => setIsEditingProduct(!isEditingProduct)}
+            onClick={() => dispatch(setIsEditingProduct(!isEditingProduct))}
           />
         )
       }
