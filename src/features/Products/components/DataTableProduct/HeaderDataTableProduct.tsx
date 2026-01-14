@@ -1,23 +1,38 @@
+import { useMemo } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Button } from 'primereact/button';
 import { ButtonGroup } from 'primereact/buttongroup';
 import { IconField } from 'primereact/iconfield';
 import { InputIcon } from 'primereact/inputicon';
 import { InputText } from 'primereact/inputtext';
+import { RootState } from '@/store';
+import { setIsCreatingNewProduct } from '../../store/productsSlice';
 import styles from './datatableproduct.module.css';
 
 const HeaderDataTableProduct = ({
-  hasFilters,
   clearFilters,
-  setIsCreatingNewProduct,
   onGlobalFilterChange,
   globalFilterValue,
 }: {
-  hasFilters: boolean;
   clearFilters: () => void;
-  setIsCreatingNewProduct: (value: boolean) => void;
   onGlobalFilterChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   globalFilterValue: string;
 }) => {
+  const dispatch = useDispatch();
+  const filters = useSelector((state: RootState) => state.products.filters);
+
+  const hasFilters = useMemo(() => {
+    const nonFilterKeys = ['pageNumber', 'pageSize'];
+    return Object.entries(filters).some(([key, value]) => {
+      if (nonFilterKeys.includes(key)) return false;
+
+      if (key === 'category' && Array.isArray(value)) {
+        return value.length > 0;
+      }
+
+      return value !== null && value !== '' && value !== undefined;
+    });
+  }, [filters]);
   return (
     <div className={styles.header}>
       <IconField style={{ flex: 1 }} iconPosition="left">
@@ -41,7 +56,7 @@ const HeaderDataTableProduct = ({
           severity="contrast"
         />
         <Button
-          onClick={() => setIsCreatingNewProduct(true)}
+          onClick={() => dispatch(setIsCreatingNewProduct(true))}
           icon="pi pi-plus"
           style={{ backgroundColor: 'var(--red)', border: '1px solid var(--red)' }}
           size="small"

@@ -1,25 +1,20 @@
+import { useDispatch, useSelector } from 'react-redux';
 import { Button } from 'primereact/button';
 import { Dialog } from 'primereact/dialog';
+import { RootState } from '@/store';
+import { useProductActions } from '../hooks/useProductAction';
+import { setIdProductToDelete } from '../store/productsSlice';
 
-export interface DialogDeleteProductProps {
-  IdProductToDelete: string;
-  isDeleting: boolean;
-  deleteProduct: (id: string, options: { onSuccess: () => void }) => void;
-  setIdProductToDelete: (id: string) => void;
-}
-
-const DialogDeleteProduct = ({
-  IdProductToDelete,
-  isDeleting,
-  deleteProduct,
-  setIdProductToDelete,
-}: DialogDeleteProductProps) => {
+const DialogDeleteProduct = () => {
+  const idProductToDelete = useSelector((state: RootState) => state.products.idProductToDelete);
+  const { isDeleting, deleteProduct } = useProductActions();
+  const dispatch = useDispatch();
   return (
     <Dialog
       header="¿Estás seguro/a de eliminar este producto?"
-      visible={IdProductToDelete !== ''}
+      visible={idProductToDelete !== ''}
       style={{ width: '50vw' }}
-      onHide={() => setIdProductToDelete('')}
+      onHide={() => dispatch(setIdProductToDelete(''))}
       footer={
         <>
           <Button
@@ -28,7 +23,7 @@ const DialogDeleteProduct = ({
             icon="pi pi-times"
             text
             loading={isDeleting}
-            onClick={() => setIdProductToDelete('')}
+            onClick={() => dispatch(setIdProductToDelete(''))}
           />
           <Button
             loading={isDeleting}
@@ -36,7 +31,9 @@ const DialogDeleteProduct = ({
             severity="danger"
             icon="pi pi-trash"
             onClick={() =>
-              deleteProduct(IdProductToDelete, { onSuccess: () => setIdProductToDelete('') })
+              deleteProduct(idProductToDelete, {
+                onSuccess: () => dispatch(setIdProductToDelete('')),
+              })
             }
           />
         </>

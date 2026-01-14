@@ -1,4 +1,6 @@
 import { Product } from '@/core/domain/Product';
+import { PagedList } from '@/core/models/Common/PagedList';
+import { ProductsFilterRequest } from '@/core/models/ProductsFilterRequest';
 import { IProductRepository } from '@/core/repositories/ProductRepository';
 import { api } from '@/services/api';
 
@@ -7,8 +9,8 @@ export class ProductRemoteRepository implements IProductRepository {
     const { data } = await api.post(`/product`, product);
     return data;
   }
-  async getAll(): Promise<Product[]> {
-    const { data } = await api.get(`/product`);
+  async getAll(products: ProductsFilterRequest): Promise<PagedList<Product>> {
+    const { data } = await api.get(`/product`, { params: products });
     return data;
   }
   async getById(id: string): Promise<Product> {
