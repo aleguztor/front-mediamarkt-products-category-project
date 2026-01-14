@@ -16,7 +16,7 @@
     "moduleDetection": "force",
     "noEmit": true,
     "jsx": "react-jsx", // <--- Obligatorio para TSX
-
+    "allowSyntheticDefaultImports": true,
     /* Estricto */
     "strict": true,
     "noUnusedLocals": true,
