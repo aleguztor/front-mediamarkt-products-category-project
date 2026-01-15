@@ -18,8 +18,8 @@ Este es el cliente web para la gestión de productos de MediaMarkt. Una interfaz
 - Instalamos las dependencias e iniciamos proyecto
 
 ```sh
-npm i
-npm run dev
+pnpm i
+pnpm run dev
 ```
 
 - Después de esto podremos acceder con la url [http://localhost:5173](http://localhost:5173/)
