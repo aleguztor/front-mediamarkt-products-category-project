@@ -1,38 +1,10 @@
-import { FilterMatchMode } from 'primereact/api';
 import { DataTableFilterMeta } from 'primereact/datatable';
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { Product } from '@/core/domain/Product';
 import { ProductsFilterRequest } from '@/core/models/ProductsFilterRequest';
-import { EditingMode } from '../types';
+import { initialFilters, intialStatePagingAndSortBy } from '../constants/product.constants';
+import { EditingMode, ProducState } from '../types';
 
-export interface ProducState {
-  editingMode: EditingMode;
-  idProductToDelete: string;
-  productOpen: Product | null;
-  isEditingProduct: boolean;
-  isCreatingNewProduct: boolean;
-  pagingAndSortBy: PagingAndSortBy;
-  filtersFromDataTable: DataTableFilterMeta;
-}
-export interface PagingAndSortBy {
-  pageNumber: number;
-  pageSize: number;
-  sortBy: string;
-  isDescending: boolean;
-}
-export const initialFilters: DataTableFilterMeta = {
-  global: { value: null, matchMode: FilterMatchMode.CONTAINS },
-  name: { value: null, matchMode: FilterMatchMode.CONTAINS },
-  'category.name': { value: null, matchMode: FilterMatchMode.IN },
-  price: { value: null, matchMode: FilterMatchMode.CUSTOM },
-};
-
-export const intialStatePagingAndSortBy: PagingAndSortBy = {
-  pageNumber: 1,
-  pageSize: 10,
-  sortBy: 'name',
-  isDescending: false,
-};
 const initialState: ProducState = {
   editingMode: 'view',
   idProductToDelete: '',
@@ -69,6 +41,9 @@ const productSlice = createSlice({
         pageNumber: action.payload.pageNumber ?? intialStatePagingAndSortBy.pageNumber,
       };
     },
+    resetPagingAndSortBy: (state) => {
+      state.pagingAndSortBy = intialStatePagingAndSortBy;
+    },
     setFiltersFromDataTable: (state, action: PayloadAction<DataTableFilterMeta>) => {
       state.filtersFromDataTable = action.payload;
     },
@@ -83,6 +58,7 @@ export const {
   setIdProductToDelete,
   setProductOpen,
   setIsEditingProduct,
+  resetPagingAndSortBy,
   setIsCreatingNewProduct,
   setPagingAndSortBy,
   setFiltersFromDataTable,
