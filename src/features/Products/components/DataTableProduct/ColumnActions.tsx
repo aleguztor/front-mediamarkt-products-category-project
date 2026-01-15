@@ -38,7 +38,7 @@ const ColumnActions = () => {
             size="small"
             severity="secondary"
             loading={isDeleting}
-            onClick={() => dispatch(setIdProductToDelete(product.id))}
+            onClick={() => dispatch(setIdProductToDelete(product.name))}
           />
         </div>
       )}

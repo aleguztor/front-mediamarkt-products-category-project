@@ -129,6 +129,7 @@ export const ProductForm = ({ product, onSave, onCancel, loading }: ProductFormP
             type="button"
           />
           <Button
+            className={styles.buttonConfirmation}
             size="small"
             label={mode === 'edit' ? 'Actualizar' : 'Crear Producto'}
             icon="pi pi-check"

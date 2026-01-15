@@ -37,6 +37,10 @@ const DialogEditingProduct = () => {
       header={productOpen == null && !isEditingProduct ? 'Crear Nuevo Producto' : productOpen?.name}
       visible={productOpen !== null || isCreatingNewProduct}
       style={{ width: '50vw' }}
+      breakpoints={{
+        '960px': '75vw',
+        '641px': '95vw',
+      }}
       icons={
         mode !== 'create' && (
           <Button

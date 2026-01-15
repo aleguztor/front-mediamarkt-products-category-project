@@ -77,7 +77,7 @@ const HeaderDataTableProduct = () => {
           onClick={() => dispatch(setIsCreatingNewProduct(true))}
           icon="pi pi-plus"
           size="small"
-          label={window.innerWidth > 600 ? 'Agregar Producto' : ''}
+          label={'Agregar Producto'}
         />
       </ButtonGroup>
     </div>

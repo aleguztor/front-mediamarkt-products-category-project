@@ -45,6 +45,16 @@
   }
   .addProductButton {
     background-color: var(--red);
-    border: 1px solid var(--red);
+  }
+}
+@media screen and (max-width: 960px) {
+  .addProductButton {
+    height: 37px;
+  }
+  .addProductButton :global(.p-button-label) {
+    display: none;
+  }
+  .addProductButton :global(.p-button-icon) {
+    margin: 2px;
   }
 }
