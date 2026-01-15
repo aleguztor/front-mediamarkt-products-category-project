@@ -1,38 +1,53 @@
-import { useMemo } from 'react';
+import { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Button } from 'primereact/button';
 import { ButtonGroup } from 'primereact/buttongroup';
+import { DataTableFilterMeta } from 'primereact/datatable';
 import { IconField } from 'primereact/iconfield';
 import { InputIcon } from 'primereact/inputicon';
 import { InputText } from 'primereact/inputtext';
 import { RootState } from '@/store';
-import { setIsCreatingNewProduct } from '../../store/productsSlice';
+import { getFieldValue } from '@/utils/primeReactUtils';
+import { useProductActions } from '../../hooks/useProductAction';
+import {
+  intialStatePagingAndSortBy,
+  resetFiltersFromDataTable,
+  setFiltersFromDataTable,
+  setIsCreatingNewProduct,
+  setPagingAndSortBy,
+} from '../../store/productsSlice';
 import styles from './datatableproduct.module.css';
 
-const HeaderDataTableProduct = ({
-  clearFilters,
-  onGlobalFilterChange,
-  globalFilterValue,
-}: {
-  clearFilters: () => void;
-  onGlobalFilterChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  globalFilterValue: string;
-}) => {
+const HeaderDataTableProduct = () => {
   const dispatch = useDispatch();
-  const filters = useSelector((state: RootState) => state.products.filters);
+  const filtersFromDataTable = useSelector(
+    (state: RootState) => state.products.filtersFromDataTable,
+  );
+  const pagingAndSortBy = useSelector((state: RootState) => state.products.pagingAndSortBy);
+  const { hasFilters } = useProductActions();
+  const globalFilterValue = getFieldValue<string>(filtersFromDataTable, 'global') ?? '';
 
-  const hasFilters = useMemo(() => {
-    const nonFilterKeys = ['pageNumber', 'pageSize'];
-    return Object.entries(filters).some(([key, value]) => {
-      if (nonFilterKeys.includes(key)) return false;
+  const onGlobalFilterChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const value = e.target.value;
+      const newTableFilters: DataTableFilterMeta = {
+        ...filtersFromDataTable,
+        global: {
+          ...filtersFromDataTable['global'],
+          value: value || null,
+        },
+      };
+      dispatch(setFiltersFromDataTable(newTableFilters));
+      dispatch(
+        setPagingAndSortBy({
+          ...pagingAndSortBy,
+          pageNumber: intialStatePagingAndSortBy.pageNumber,
+        }),
+      );
+    },
+    [dispatch, pagingAndSortBy, intialStatePagingAndSortBy, filtersFromDataTable],
+  );
 
-      if (key === 'category' && Array.isArray(value)) {
-        return value.length > 0;
-      }
-
-      return value !== null && value !== '' && value !== undefined;
-    });
-  }, [filters]);
   return (
     <div className={styles.header}>
       <IconField className={styles.containerInputText} iconPosition="left">
@@ -50,7 +65,10 @@ const HeaderDataTableProduct = ({
           icon="pi pi-filter-slash"
           label="Limpiar"
           disabled={!hasFilters}
-          onClick={clearFilters}
+          onClick={() => {
+            dispatch(setPagingAndSortBy(intialStatePagingAndSortBy));
+            dispatch(resetFiltersFromDataTable());
+          }}
           size="small"
           severity="contrast"
         />

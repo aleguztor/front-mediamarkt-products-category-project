@@ -1,3 +1,22 @@
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  gap: 10px;
+  flex-wrap: wrap;
+  .containerInputText {
+    flex: 1;
+    input {
+      width: 100%;
+      min-width: 175px;
+    }
+  }
+  .addProductButton {
+    background-color: var(--red);
+    border: 1px solid var(--red);
+  }
+}
 .table {
   overflow: hidden;
   box-shadow: 0px 1px 6px rgba(0, 0, 0, 0.1);
@@ -5,21 +24,7 @@
   :global(.p-datatable-wrapper) {
     background-color: white;
   }
-  .header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 10px;
-    gap: 10px;
-    flex-wrap: wrap;
-    .containerInputText {
-      flex: 1;
-      input {
-        width: 100%;
-        min-width: 175px;
-      }
-    }
-  }
+
   .buttonGroup {
     display: flex;
     gap: 10px;
