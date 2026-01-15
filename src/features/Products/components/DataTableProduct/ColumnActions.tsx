@@ -1,21 +1,23 @@
+import { useDispatch } from 'react-redux';
 import { Button } from 'primereact/button';
 import { Column } from 'primereact/column';
 import { Product } from '@/core/domain/Product';
+import { useProductActions } from '../../hooks/useProductAction';
+import {
+  setIdProductToDelete,
+  setIsEditingProduct,
+  setProductOpen,
+} from '../../store/productsSlice';
 import styles from './datatableproduct.module.css';
 
-export interface ColumnActions {
-  isUpdating: boolean;
-  isDeleting: boolean;
-  openEditingProduct: (product: Product) => void;
-  setIdProductToDelete: (value: string) => void;
-}
+const ColumnActions = () => {
+  const dispatch = useDispatch();
+  const { isUpdating, isDeleting } = useProductActions();
 
-const ColumnActions = ({
-  isUpdating,
-  isDeleting,
-  openEditingProduct,
-  setIdProductToDelete,
-}: ColumnActions) => {
+  const openEditingProduct = (product: Product) => {
+    dispatch(setIsEditingProduct(true));
+    dispatch(setProductOpen(product));
+  };
   return (
     <Column
       style={{ minWidth: '10rem' }}
@@ -36,7 +38,7 @@ const ColumnActions = ({
             size="small"
             severity="secondary"
             loading={isDeleting}
-            onClick={() => setIdProductToDelete(product.id)}
+            onClick={() => dispatch(setIdProductToDelete(product.id))}
           />
         </div>
       )}

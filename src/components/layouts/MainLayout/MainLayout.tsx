@@ -1,8 +1,9 @@
 import { useMemo } from 'react';
-import { Outlet, useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { Menubar } from 'primereact/menubar';
 import { MenuItem } from 'primereact/menuitem';
 import { PATHS } from '@/routes/paths';
+import AnimatedMain from './AnimatedMain';
 import styles from './mainLayout.module.css';
 
 const MainLayout = () => {
@@ -14,7 +15,6 @@ const MainLayout = () => {
     () => [
       {
         label: 'Productos',
-        // icon: 'pi pi-book',
         url: pathProduct,
         className: location.pathname === pathProduct ? 'active-menuitem' : '',
         command: () => navigate(pathProduct),
@@ -31,8 +31,6 @@ const MainLayout = () => {
             <a className={styles.iconHome} href="/">
               <img
                 className={styles.img}
-                width={200}
-                height={'auto'}
                 src="https://cms-images.mmst.eu/osyynfyvlyjc/44h8niXHULqXsrJQIX29AZ/56e82d73704471511e9484f373b39f39/MM_logo_white.svg?q=80"
                 alt="Mediamarkt logo"
               />
@@ -42,9 +40,7 @@ const MainLayout = () => {
           model={items}
         />
       </div>
-      <main className={styles.sectionModuleContainer}>
-        <Outlet />
-      </main>
+      <AnimatedMain />
       <footer className={styles.footer}>
         <div className={styles.footerInfo}>
           <p>

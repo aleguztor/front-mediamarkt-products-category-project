@@ -1,0 +1,4 @@
+.productPage {
+  transition: 200ms all;
+  padding: 0 clamp(0px, (1330px - 100vw) * 1000, var(--content-padding));
+}

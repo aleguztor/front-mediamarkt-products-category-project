@@ -1,0 +1,139 @@
+import { useEffect, useState } from 'react';
+import { animated, useSpring } from '@react-spring/web';
+import net8logo from '@/assets/dotnet8_logo.png';
+import MediaMarktMiniLogo from '@/assets/media_markt_simple_logo.svg';
+import reactlogo from '@/assets/react.svg';
+import sqlServerLogo from '@/assets/sql_server.webp';
+import viteLogo from '@/assets/vite.svg';
+import JustifiedText from '@/components/JustifiedText';
+import styles from './homePage.module.css';
+
+const HomePage = () => {
+  const [isFirstVisit, setIsFirstVisit] = useState(false);
+  const animationDiv = useSpring({
+    from: { y: -600 },
+    to: { y: 0 },
+    config: {
+      mass: 2,
+      friction: 80,
+    },
+  });
+
+  const [textPruebaTecnica] = useSpring(
+    () => ({
+      from: { opacity: 0 },
+      to: { opacity: 1 },
+      delay: 600,
+      config: {
+        duration: 400,
+      },
+    }),
+    [],
+  );
+  const [textPruebaTecnica2] = useSpring(
+    () => ({
+      from: { opacity: 0 },
+      to: { opacity: 1 },
+      delay: 900,
+      config: {
+        duration: 500,
+      },
+    }),
+    [],
+  );
+  const [containerImages] = useSpring(
+    () => ({
+      from: { opacity: 0 },
+      to: { opacity: 1 },
+      delay: 1100,
+      config: {
+        duration: 500,
+      },
+    }),
+    [],
+  );
+  const animationrotationMK = useSpring({
+    from: { transform: 'rotate(360deg)' },
+    to: { transform: 'rotate(0deg)' },
+    config: { duration: 20000 },
+    loop: true,
+  });
+  useEffect(() => {
+    const hasVisited = sessionStorage.getItem('visitedBefore');
+    if (!hasVisited) {
+      setIsFirstVisit(true);
+      sessionStorage.setItem('visitedBefore', 'true');
+    }
+  }, []);
+
+  return (
+    <>
+      <animated.div
+        style={isFirstVisit ? animationDiv : {}}
+        className={styles.animation}
+      ></animated.div>
+
+      <div className={styles.homePage}>
+        <div className={styles.containerMainText}>
+          <JustifiedText
+            text="Bienvenida"
+            animation={isFirstVisit ? textPruebaTecnica : {}}
+            className={`${styles.textPruebaTecnica} ${styles.textPruebaTecnica1} `}
+          />
+          <JustifiedText
+            text="Prueba"
+            animation={isFirstVisit ? textPruebaTecnica : {}}
+            className={`${styles.textPruebaTecnica} ${styles.colorGray} `}
+          />
+          <JustifiedText
+            text="Tecnica"
+            animation={isFirstVisit ? textPruebaTecnica : {}}
+            className={`${styles.textPruebaTecnica} ${styles.colorGray} `}
+          />
+        </div>
+        <div className={styles.containerExplication}>
+          <animated.img
+            src={MediaMarktMiniLogo}
+            style={
+              isFirstVisit
+                ? { ...animationrotationMK, ...textPruebaTecnica2 }
+                : { ...animationrotationMK }
+            }
+            className={styles.imgMK}
+          />
+          <animated.h3 style={isFirstVisit ? textPruebaTecnica2 : {}}>
+            <span>¡Hola!</span>
+            Bienvenid@ a mi resolución de la prueba técnica.
+          </animated.h3>
+          <animated.p
+            style={isFirstVisit ? textPruebaTecnica2 : { marginTop: '10px' }}
+            className={styles.textPruebaTecnicaP}
+          >
+            Gracias por revisar mi propuesta para el desafío técnico de <strong>Ohtic</strong>. En
+            las siguientes secciones podrán explorar la implementación de las funcionalidades
+            solicitadas.
+          </animated.p>
+        </div>
+        <animated.section
+          style={isFirstVisit ? containerImages : {}}
+          className={styles.containerLogos}
+        >
+          <a href="https://dotnet.microsoft.com/es-es/download/dotnet/8.0">
+            <img src={net8logo} alt=".NET8 logo" />
+          </a>
+          <a href="https://es.react.dev/">
+            <img src={reactlogo} alt="React logo" />
+          </a>
+          <a href="https://vite.dev/">
+            <img src={viteLogo} alt="Vite logo" />
+          </a>
+          <a href="https://www.microsoft.com/es-es/sql-server/sql-server-downloads">
+            <img src={sqlServerLogo} alt=".Sql Server Express logo" />
+          </a>
+        </animated.section>
+      </div>
+    </>
+  );
+};
+
+export default HomePage;

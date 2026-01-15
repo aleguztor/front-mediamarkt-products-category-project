@@ -6,6 +6,7 @@ const ColumnName = () => {
     <Column
       field="name"
       sortable
+      showFilterMenu={false}
       filter
       header="Nombre"
       filterPlaceholder="Buscar por nombre"

@@ -63,5 +63,6 @@ addLocale('es', {
   notEquals: 'No igual a',
   noFilter: 'Sin filtro',
   fileSizeTypes: ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'],
+  emptyMessage: 'No se encontraron resultados',
 });
 locale('es');
