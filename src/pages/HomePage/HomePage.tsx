@@ -1,12 +1,15 @@
 import { useEffect, useState } from 'react';
 import { animated, useSpring } from '@react-spring/web';
 import net8logo from '@/assets/dotnet8_logo.png';
+import MediaMarktMiniLogo from '@/assets/media_markt_simple_logo.svg';
 import reactlogo from '@/assets/react.svg';
 import sqlServerLogo from '@/assets/sql_server.webp';
 import viteLogo from '@/assets/vite.svg';
+import JustifiedText from '@/components/JustifiedText';
 import styles from './homePage.module.css';
 
 const HomePage = () => {
+  const [isFirstVisit, setIsFirstVisit] = useState(false);
   const animationDiv = useSpring({
     from: { y: -600 },
     to: { y: 0 },
@@ -49,8 +52,12 @@ const HomePage = () => {
     }),
     [],
   );
-  const [isFirstVisit, setIsFirstVisit] = useState(false);
-
+  const animationrotationMK = useSpring({
+    from: { transform: 'rotate(360deg)' },
+    to: { transform: 'rotate(0deg)' },
+    config: { duration: 20000 },
+    loop: true,
+  });
   useEffect(() => {
     const hasVisited = sessionStorage.getItem('visitedBefore');
     if (!hasVisited) {
@@ -65,28 +72,35 @@ const HomePage = () => {
         style={isFirstVisit ? animationDiv : {}}
         className={styles.animation}
       ></animated.div>
+
       <div className={styles.homePage}>
         <div className={styles.containerMainText}>
-          <animated.p
-            style={isFirstVisit ? textPruebaTecnica : {}}
+          <JustifiedText
+            text="Bienvenida"
+            animation={isFirstVisit ? textPruebaTecnica : {}}
             className={`${styles.textPruebaTecnica} ${styles.textPruebaTecnica1} `}
-          >
-            <strong>Bienvenida</strong>
-          </animated.p>
-          <animated.p
-            style={isFirstVisit ? textPruebaTecnica : {}}
-            className={`${styles.textPruebaTecnica} ${styles.textPruebaTecnica2} `}
-          >
-            Prueba
-          </animated.p>
-          <animated.p
-            style={isFirstVisit ? textPruebaTecnica : {}}
-            className={`${styles.textPruebaTecnica} ${styles.textPruebaTecnica3} `}
-          >
-            tecnica
-          </animated.p>
+          />
+          <JustifiedText
+            text="Prueba"
+            animation={isFirstVisit ? textPruebaTecnica : {}}
+            className={`${styles.textPruebaTecnica} ${styles.colorGray} `}
+          />
+          <JustifiedText
+            text="Tecnica"
+            animation={isFirstVisit ? textPruebaTecnica : {}}
+            className={`${styles.textPruebaTecnica} ${styles.colorGray} `}
+          />
         </div>
         <div className={styles.containerExplication}>
+          <animated.img
+            src={MediaMarktMiniLogo}
+            style={
+              isFirstVisit
+                ? { ...animationrotationMK, ...textPruebaTecnica2 }
+                : { ...animationrotationMK }
+            }
+            className={styles.imgMK}
+          />
           <animated.h3 style={isFirstVisit ? textPruebaTecnica2 : {}}>
             <span>¡Hola!</span>
             Bienvenid@ a mi resolución de la prueba técnica.

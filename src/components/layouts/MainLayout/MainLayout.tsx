@@ -1,8 +1,9 @@
 import { useMemo } from 'react';
-import { Outlet, useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { Menubar } from 'primereact/menubar';
 import { MenuItem } from 'primereact/menuitem';
 import { PATHS } from '@/routes/paths';
+import AnimatedMain from './AnimatedMain';
 import styles from './mainLayout.module.css';
 
 const MainLayout = () => {
@@ -14,7 +15,6 @@ const MainLayout = () => {
     () => [
       {
         label: 'Productos',
-        // icon: 'pi pi-book',
         url: pathProduct,
         className: location.pathname === pathProduct ? 'active-menuitem' : '',
         command: () => navigate(pathProduct),
@@ -40,9 +40,7 @@ const MainLayout = () => {
           model={items}
         />
       </div>
-      <main className={styles.sectionModuleContainer}>
-        <Outlet />
-      </main>
+      <AnimatedMain />
       <footer className={styles.footer}>
         <div className={styles.footerInfo}>
           <p>
