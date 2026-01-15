@@ -19,7 +19,7 @@ const initialFilters: DataTableFilterMeta = {
   global: { value: null, matchMode: FilterMatchMode.CONTAINS },
   name: { value: null, matchMode: FilterMatchMode.CONTAINS },
   'category.name': { value: null, matchMode: FilterMatchMode.IN },
-  price: { value: [null, null], matchMode: FilterMatchMode.CUSTOM },
+  price: { value: null, matchMode: FilterMatchMode.CUSTOM },
 };
 
 export const intialStateFilters: ProductsFilterRequest = {

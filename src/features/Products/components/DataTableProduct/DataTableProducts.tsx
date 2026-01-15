@@ -100,7 +100,6 @@ const DataTableProducts = () => {
       onFilter={onFilterChange}
       scrollable
       rowsPerPageOptions={[5, 10, 25, 50, 100]}
-      scrollHeight="flex"
       selectionMode="single"
       value={products}
       header={

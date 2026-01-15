@@ -14,6 +14,8 @@ dd {
 }
 body {
   background-color: var(--surface-50);
-  max-height: 100vh;
-  height: 100vh;
+  height: 100%;
+}
+html {
+  height: 100%;
 }

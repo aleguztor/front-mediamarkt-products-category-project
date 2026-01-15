@@ -12,6 +12,13 @@
     margin-bottom: 10px;
     gap: 10px;
     flex-wrap: wrap;
+    .containerInputText {
+      flex: 1;
+      input {
+        width: 100%;
+        min-width: 175px;
+      }
+    }
   }
   .buttonGroup {
     display: flex;
@@ -30,5 +37,9 @@
     width: 100%;
     text-align: center;
     font-weight: bold;
+  }
+  .addProductButton {
+    background-color: var(--red);
+    border: 1px solid var(--red);
   }
 }

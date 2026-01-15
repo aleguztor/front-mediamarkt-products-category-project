@@ -35,10 +35,9 @@ const HeaderDataTableProduct = ({
   }, [filters]);
   return (
     <div className={styles.header}>
-      <IconField style={{ flex: 1 }} iconPosition="left">
+      <IconField className={styles.containerInputText} iconPosition="left">
         <InputIcon className="pi pi-search" />
         <InputText
-          style={{ width: '100%' }}
           value={globalFilterValue}
           onChange={onGlobalFilterChange}
           placeholder="Buscar producto..."
@@ -56,9 +55,9 @@ const HeaderDataTableProduct = ({
           severity="contrast"
         />
         <Button
+          className={styles.addProductButton}
           onClick={() => dispatch(setIsCreatingNewProduct(true))}
           icon="pi pi-plus"
-          style={{ backgroundColor: 'var(--red)', border: '1px solid var(--red)' }}
           size="small"
           label={window.innerWidth > 600 ? 'Agregar Producto' : ''}
         />

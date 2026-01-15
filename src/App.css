@@ -2,8 +2,7 @@
   --red: #df0000;
 }
 #root {
-  max-height: 100dvh;
-  height: 100dvh;
+  height: 100%;
 }
 .p-column-header-content {
   color: black !important;
