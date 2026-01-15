@@ -14,9 +14,9 @@ import { RootState } from '@/store';
 import styles from './product.module.css';
 
 const MAX_DESCRIPTION = 250;
-
+const MAX_NAME = 50;
 const ProductSchema = Yup.object().shape({
-  name: Yup.string().required('El nombre es obligatorio').min(2, 'Muy corto').max(50),
+  name: Yup.string().required('El nombre es obligatorio').min(2, 'Muy corto').max(MAX_NAME),
   price: Yup.number().required('El precio es obligatorio').positive('Debe ser mayor a 0'),
   description: Yup.string()
     .min(10, 'La descripción es muy corta')
@@ -61,7 +61,9 @@ export const ProductForm = ({ product, onSave, onCancel, loading }: ProductFormP
           onChange={formik.handleChange}
           className={classNames({ 'p-invalid': formik.touched.name && formik.errors.name })}
         />
-
+        <small className={formik.values.name.length > MAX_NAME ? 'p-error' : ''}>
+          {formik.values.name.length} / {MAX_NAME}
+        </small>
         {formik.touched.name && formik.errors.name && (
           <small className="p-error">{formik.errors.name as string}</small>
         )}
@@ -127,6 +129,7 @@ export const ProductForm = ({ product, onSave, onCancel, loading }: ProductFormP
             type="button"
           />
           <Button
+            className={styles.buttonConfirmation}
             size="small"
             label={mode === 'edit' ? 'Actualizar' : 'Crear Producto'}
             icon="pi pi-check"

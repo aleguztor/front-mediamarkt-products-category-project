@@ -11,18 +11,23 @@ export interface ProducState {
   productOpen: Product | null;
   isEditingProduct: boolean;
   isCreatingNewProduct: boolean;
-  filters: ProductsFilterRequest;
+  pagingAndSortBy: PagingAndSortBy;
   filtersFromDataTable: DataTableFilterMeta;
 }
-
-const initialFilters: DataTableFilterMeta = {
+export interface PagingAndSortBy {
+  pageNumber: number;
+  pageSize: number;
+  sortBy: string;
+  isDescending: boolean;
+}
+export const initialFilters: DataTableFilterMeta = {
   global: { value: null, matchMode: FilterMatchMode.CONTAINS },
   name: { value: null, matchMode: FilterMatchMode.CONTAINS },
   'category.name': { value: null, matchMode: FilterMatchMode.IN },
   price: { value: null, matchMode: FilterMatchMode.CUSTOM },
 };
 
-export const intialStateFilters: ProductsFilterRequest = {
+export const intialStatePagingAndSortBy: PagingAndSortBy = {
   pageNumber: 1,
   pageSize: 10,
   sortBy: 'name',
@@ -34,7 +39,7 @@ const initialState: ProducState = {
   productOpen: null,
   isEditingProduct: false,
   isCreatingNewProduct: false,
-  filters: intialStateFilters,
+  pagingAndSortBy: intialStatePagingAndSortBy,
   filtersFromDataTable: initialFilters,
 };
 
@@ -57,11 +62,11 @@ const productSlice = createSlice({
     setIsCreatingNewProduct: (state, action: PayloadAction<boolean>) => {
       state.isCreatingNewProduct = action.payload;
     },
-    setFilters: (state, action: PayloadAction<Partial<ProductsFilterRequest>>) => {
-      state.filters = {
-        ...state.filters,
+    setPagingAndSortBy: (state, action: PayloadAction<Partial<ProductsFilterRequest>>) => {
+      state.pagingAndSortBy = {
+        ...state.pagingAndSortBy,
         ...action.payload,
-        pageNumber: action.payload.pageNumber ?? intialStateFilters.pageNumber,
+        pageNumber: action.payload.pageNumber ?? intialStatePagingAndSortBy.pageNumber,
       };
     },
     setFiltersFromDataTable: (state, action: PayloadAction<DataTableFilterMeta>) => {
@@ -79,7 +84,7 @@ export const {
   setProductOpen,
   setIsEditingProduct,
   setIsCreatingNewProduct,
-  setFilters,
+  setPagingAndSortBy,
   setFiltersFromDataTable,
   resetFiltersFromDataTable,
 } = productSlice.actions;

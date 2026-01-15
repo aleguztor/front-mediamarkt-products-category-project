@@ -13,4 +13,21 @@
     gap: 0.2rem;
     margin-top: 0.4rem;
   }
+  .field {
+    small {
+      width: 100%;
+      text-align: end;
+    }
+  }
+}
+.name {
+  color: var(--surface-800);
+}
+@media screen and (max-width: 960px) {
+  .buttonConfirmation :global(.p-button-label) {
+    display: none;
+  }
+  .buttonConfirmation :global(.p-button-icon) {
+    margin: 2px;
+  }
 }
