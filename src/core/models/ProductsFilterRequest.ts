@@ -6,4 +6,6 @@ export interface ProductsFilterRequest extends PagingParams {
   maxPrice?: number | null;
   name?: string | null;
   category?: string[] | null;
+  sortBy: string;
+  isDescending: boolean;
 }

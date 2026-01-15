@@ -25,6 +25,8 @@ const initialFilters: DataTableFilterMeta = {
 export const intialStateFilters: ProductsFilterRequest = {
   pageNumber: 1,
   pageSize: 10,
+  sortBy: 'name',
+  isDescending: false,
 };
 const initialState: ProducState = {
   editingMode: 'view',

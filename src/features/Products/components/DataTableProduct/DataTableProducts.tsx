@@ -1,7 +1,7 @@
 import { useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { FilterService } from 'primereact/api';
-import { DataTable, DataTableFilterMeta } from 'primereact/datatable';
+import { DataTable, DataTableFilterMeta, DataTableSortEvent } from 'primereact/datatable';
 import { Product } from '@/core/domain/Product';
 import { RootState } from '@/store';
 import { useProductActions } from '../../hooks/useProductAction';
@@ -84,6 +84,12 @@ const DataTableProducts = () => {
     });
   };
 
+  const onSort = (event: DataTableSortEvent) => {
+    updateFilters({
+      sortBy: event.sortField,
+      isDescending: event.sortOrder === -1,
+    });
+  };
   return (
     <DataTable
       lazy
@@ -110,9 +116,10 @@ const DataTableProducts = () => {
         />
       }
       loading={isLoading}
-      sortOrder={-1}
+      sortField={filters.sortBy}
+      sortOrder={filters.isDescending ? -1 : 1}
+      onSort={onSort}
       removableSort
-      sortField="name"
       tableStyle={{ minWidth: '50rem' }}
       onRowClick={(product) => dispatch(setProductOpen(product.data as Product))}
     >
