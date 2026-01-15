@@ -10,8 +10,8 @@ import { RootState } from '@/store';
 import { getFieldValue } from '@/utils/primeReactUtils';
 import { useProductActions } from '../../hooks/useProductAction';
 import {
-  intialStatePagingAndSortBy,
   resetFiltersFromDataTable,
+  resetPagingAndSortBy,
   setFiltersFromDataTable,
   setIsCreatingNewProduct,
   setPagingAndSortBy,
@@ -41,11 +41,11 @@ const HeaderDataTableProduct = () => {
       dispatch(
         setPagingAndSortBy({
           ...pagingAndSortBy,
-          pageNumber: intialStatePagingAndSortBy.pageNumber,
+          pageNumber: 1,
         }),
       );
     },
-    [dispatch, pagingAndSortBy, intialStatePagingAndSortBy, filtersFromDataTable],
+    [dispatch, pagingAndSortBy, filtersFromDataTable],
   );
 
   return (
@@ -66,7 +66,7 @@ const HeaderDataTableProduct = () => {
           label="Limpiar"
           disabled={!hasFilters}
           onClick={() => {
-            dispatch(setPagingAndSortBy(intialStatePagingAndSortBy));
+            dispatch(resetPagingAndSortBy());
             dispatch(resetFiltersFromDataTable());
           }}
           size="small"

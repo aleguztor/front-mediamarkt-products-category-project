@@ -7,22 +7,15 @@ import { InputText } from 'primereact/inputtext';
 import { InputTextarea } from 'primereact/inputtextarea';
 import { classNames } from 'primereact/utils';
 import { useFormik } from 'formik';
-import * as Yup from 'yup';
 import { Product } from '@/core/domain/Product';
 import { useCategoryActions } from '@/features/Categories/hooks/useCategoryAction';
 import { RootState } from '@/store';
+import {
+  MAX_DESCRIPTION,
+  MAX_NAME,
+  creationProductFormRequirements,
+} from '../constants/product.constants';
 import styles from './product.module.css';
-
-const MAX_DESCRIPTION = 250;
-const MAX_NAME = 50;
-const ProductSchema = Yup.object().shape({
-  name: Yup.string().required('El nombre es obligatorio').min(2, 'Muy corto').max(MAX_NAME),
-  price: Yup.number().required('El precio es obligatorio').positive('Debe ser mayor a 0'),
-  description: Yup.string()
-    .min(10, 'La descripción es muy corta')
-    .max(MAX_DESCRIPTION, 'La descripción es demasiado larga'),
-  categoryId: Yup.string().nullable(),
-});
 
 interface ProductFormProps {
   product?: Product | null; // Si viene es editar, si no es crear
@@ -40,7 +33,7 @@ export const ProductForm = ({ product, onSave, onCancel, loading }: ProductFormP
       description: product?.description || '',
       categoryId: product?.category?.id || null,
     },
-    validationSchema: ProductSchema,
+    validationSchema: creationProductFormRequirements,
     enableReinitialize: true,
     onSubmit: (values) => {
       onSave(values);

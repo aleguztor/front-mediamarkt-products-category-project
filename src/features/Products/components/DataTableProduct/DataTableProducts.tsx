@@ -6,7 +6,6 @@ import { Product } from '@/core/domain/Product';
 import { RootState } from '@/store';
 import { useProductActions } from '../../hooks/useProductAction';
 import {
-  intialStatePagingAndSortBy,
   setFiltersFromDataTable,
   setPagingAndSortBy,
   setProductOpen,
@@ -41,11 +40,11 @@ const DataTableProducts = () => {
       dispatch(
         setPagingAndSortBy({
           ...pagingAndSortBy,
-          pageNumber: intialStatePagingAndSortBy.pageNumber,
+          pageNumber: 1,
         }),
       );
     },
-    [dispatch, pagingAndSortBy, intialStatePagingAndSortBy],
+    [dispatch, pagingAndSortBy],
   );
 
   const onPageChange = useCallback(
