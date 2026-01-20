@@ -109,6 +109,9 @@ export const useProductActions = () => {
       invalidateProducts();
       showToast('success', 'Completado', 'Producto creado con éxito');
     },
+    onError: () => {
+      showToast('error', 'Error', 'El producto no se ha creado con éxito');
+    },
   });
 
   // 3. Actualizar producto (Partial pero obliga a ID y Precio)
@@ -118,6 +121,9 @@ export const useProductActions = () => {
       invalidateProducts();
       showToast('success', 'Completado', 'Producto actualizado con éxito');
     },
+    onError: () => {
+      showToast('error', 'Error', 'El producto no se ha actualizado con éxito');
+    },
   });
 
   // 4. Eliminar producto
@@ -126,6 +132,9 @@ export const useProductActions = () => {
     onSuccess: () => {
       invalidateProducts();
       showToast('success', 'Completado', 'Producto eliminado con éxito');
+    },
+    onError: () => {
+      showToast('error', 'Error', 'El producto no se ha eliminado con éxito');
     },
   });
 
